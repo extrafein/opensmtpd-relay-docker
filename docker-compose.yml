@@ -1,0 +1,22 @@
+services:
+  smtpd:
+    container_name: opensmtpd
+    build: build
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: '128M'
+    network_mode: bridge
+    ports:
+      - 25:25
+      - 587:587
+    volumes:
+      - /docker/opensmtpd/certs/domain.crt:/etc/ssl/certs/domain.crt
+      - /docker/opensmtpd/certs/domain.key:/etc/ssl/private/domain.key
+    environment:
+      - domain=
+      - smtp_user=
+      - smtp_password=
+      - relay_target=192.168.178.111:25
